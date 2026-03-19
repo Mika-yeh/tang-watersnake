@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>唐水蛇棲地調查 — 活動報名</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-deep: #1a3d1f;
+    --green-mid: #2e6b35;
+    --green-soft: #4a9454;
+    --green-pale: #c8e6c9;
+    --green-mist: #eef6ee;
+    --earth: #6b4f2a;
+    --earth-light: #f5ede2;
+    --red-warn: #b83232;
+    --text: #1c1c1c;
+    --text-muted: #5a5a5a;
+    --border: #d6e8d7;
+    --white: #fff;
+    --radius: 10px;
+  }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: #f7f9f7;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .hero {
+    background: var(--green-deep);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      120deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,0.02) 60px,
+      rgba(255,255,255,0.02) 61px
+    );
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--green-pale);
+    border: 1px solid rgba(200,230,201,0.4);
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+  }
+  .hero p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .badge-cr {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(184,50,50,0.2);
+    border: 1px solid rgba(184,50,50,0.5);
+    color: #fca5a5;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 6px;
+    margin-top: 1.25rem;
+  }
+  .badge-cr::before {
+    content: '';
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #fca5a5;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--green-mid);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Session cards */
+  .sessions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 2rem;
+  }
+
+  .session-card {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    background: var(--white);
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    user-select: none;
+  }
+  .session-card:hover {
+    border-color: var(--green-soft);
+    box-shadow: 0 2px 12px rgba(46,107,53,0.1);
+  }
+  .session-card.selected {
+    border-color: var(--green-mid);
+    background: var(--green-mist);
+    box-shadow: 0 2px 16px rgba(46,107,53,0.15);
+  }
+  .session-card.full {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f5f5f5;
+  }
+
+  .session-radio {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .session-card.selected .session-radio {
+    border-color: var(--green-mid);
+    background: var(--green-mid);
+  }
+  .session-card.selected .session-radio::after {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+
+  .session-info { flex: 1; }
+  .session-date {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .session-time {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .session-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .seats-badge {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .seats-open {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+  .seats-full {
+    background: #fce4ec;
+    color: #c62828;
+  }
+
+  /* Info box */
+  .info-box {
+    background: var(--earth-light);
+    border-left: 3px solid var(--earth);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    font-size: 13px;
+    color: #4a3520;
+    line-height: 1.7;
+  }
+  .info-box strong {
+    font-weight: 500;
+    color: var(--earth);
+  }
+
+  /* CTA */
+  .cta-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px;
+    background: var(--green-mid);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+  .btn-primary:hover { background: var(--green-deep); }
+  .btn-primary:active { transform: scale(0.99); }
+  .btn-primary:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+  }
+  .btn-primary svg { flex-shrink: 0; }
+
+  .notice {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* Instruction banner */
+  .select-prompt {
+    font-size: 13px;
+    color: var(--red-warn);
+    text-align: center;
+    padding: 8px;
+    border-radius: 6px;
+    background: #fff5f5;
+    border: 1px solid #fecaca;
+    display: none;
+  }
+  .select-prompt.visible { display: block; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">緯穎基金會 × 生態保育</div>
+  <h1>唐水蛇棲地調查<br>志工招募</h1>
+  <p>穿上雨鞋，走入北海岸淺山水田，協助科學監測與棲地營造</p>
+  <div class="badge-cr">臺灣紅皮書 極危（CR）物種</div>
+</div>
+
+<div class="container">
+
+  <div class="section-label">選擇出席場次</div>
+
+  <div class="sessions" id="sessions">
+
+    <div class="session-card" data-id="1" onclick="selectSession(this)">
+      <div class="session-radio"></div>
+      <div class="session-info">
+        <div class="session-date">3月27日（五）</div>
+        <div class="session-time">下午 1:00 – 6:00</div>
+      </div>
+      <div class="session-meta">
+        <span class="seats-badge seats-open">5 名額</span>
+      </div>
+    </div>
+
+    <div class="session-card" data-id="2" onclick="selectSession(this)">
+      <div class="session-radio"></div>
+      <div class="session-info">
+        <div class="session-date">6月26日（五）</div>
+        <div class="session-time">傍晚 4:00 – 10:00</div>
+      </div>
+      <div class="session-meta">
+        <span class="seats-badge seats-open">5 名額</span>
+      </div>
+    </div>
+
+    <div class="session-card" data-id="3" onclick="selectSession(this)">
+      <div class="session-radio"></div>
+      <div class="session-info">
+        <div class="session-date">9月18日（五）</div>
+        <div class="session-time">傍晚 4:00 – 10:00</div>
+      </div>
+      <div class="session-meta">
+        <span class="seats-badge seats-open">5 名額</span>
+      </div>
+    </div>
+
+    <div class="session-card" data-id="4" onclick="selectSession(this)">
+      <div class="session-radio"></div>
+      <div class="session-info">
+        <div class="session-date">11月20日（五）</div>
+        <div class="session-time">傍晚 4:00 – 10:00</div>
+      </div>
+      <div class="session-meta">
+        <span class="seats-badge seats-open">5 名額</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="info-box">
+    <strong>活動地點：</strong>新北市三芝區北海岸棲地（確切集合點於報名後通知）<br>
+    <strong>建議穿著：</strong>長袖長褲、雨鞋或防水鞋、帽子、防蚊液<br>
+    <strong>每梯次人數：</strong>上限 5 人，額滿即止
+  </div>
+
+  <div class="cta-area">
+    <div class="select-prompt" id="prompt">請先選擇您要出席的場次</div>
+    <button class="btn-primary" id="cta-btn" onclick="goToForm()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 8h12M9 3l5 5-5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      前往填寫報名表單
+    </button>
+    <p class="notice">點擊後將開啟 Microsoft Forms 報名表單，請完整填寫個人資訊完成報名。</p>
+  </div>
+
+</div>
+
+<script>
+  const FORM_URL = 'https://forms.office.com/Pages/ResponsePage.aspx?id=KAZu2oP8r0yd0nMGHLqxZ2JKu7Jtj0NNgxuO3hKJSMdUMEFPRjNISDVPT0pOREVZTFM1MFdXVE8ySi4u';
+
+  const sessions = [
+    { id: '1', label: '3月27日（五）下午1–6時' },
+    { id: '2', label: '6月26日（五）傍晚4–10時' },
+    { id: '3', label: '9月18日（五）傍晚4–10時' },
+    { id: '4', label: '11月20日（五）傍晚4–10時' },
+  ];
+
+  let selectedId = null;
+
+  function selectSession(el) {
+    if (el.classList.contains('full')) return;
+    document.querySelectorAll('.session-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedId = el.dataset.id;
+    document.getElementById('prompt').classList.remove('visible');
+  }
+
+  function goToForm() {
+    if (!selectedId) {
+      document.getElementById('prompt').classList.add('visible');
+      return;
+    }
+    const session = sessions.find(s => s.id === selectedId);
+    const url = FORM_URL + '&r_SessionChoice=' + encodeURIComponent(session.label);
+    window.open(url, '_blank');
+  }
+</script>
+
+</body>
+</html>
